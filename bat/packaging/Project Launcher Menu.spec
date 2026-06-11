@@ -1,9 +1,14 @@
 ﻿# -*- mode: python ; coding: utf-8 -*-
+from pathlib import Path
 
+spec_dir = Path(SPECPATH).resolve()
+bat_dir = spec_dir.parent
+launcher = bat_dir / 'runtime' / 'launcher_ps.py'
+icon = bat_dir / 'runtime' / 'app.ico'
 
 a = Analysis(
-    ['runtime/launcher_ps.py'],
-    pathex=[],
+    [str(launcher)],
+    pathex=[str(bat_dir)],
     binaries=[],
     datas=[],
     hiddenimports=[],
@@ -35,7 +40,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['runtime/app.ico'],
+    icon=[str(icon)],
 )
-
-

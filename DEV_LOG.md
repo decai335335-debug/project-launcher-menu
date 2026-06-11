@@ -10,6 +10,12 @@
 
 ## 2. 迭代时间线
 
+### v0.2.5 - 修复 EXE 调用旧菜单路径
+
+- 发现重新整理目录后，旧版 `Project Launcher Menu.exe` 仍然调用 `bat/启动菜单.bat`，但菜单已经移动到 `bat/runtime/启动菜单.bat`。
+- 修复 `Project Launcher Menu.spec`：spec 移入 `packaging/` 后不能继续使用旧的 `runtime/launcher_ps.py` 相对路径，改为用 `SPECPATH` 定位项目目录。
+- 重新打包 `Project Launcher Menu.exe`，把新的 `runtime/launcher_ps.py` 逻辑编入 EXE。
+- 明确规则：以后只是新增或移动菜单项目，通常只改 `bat/launchers/NN-name.bat` 并运行 `generate_bats.py`；只有启动器自身目录结构或 EXE 入口逻辑变化时才需要重新打包。
 ### v0.2.4 - 根目录瘦身与分类结构
 
 - 调整 `bat/` 目录：第一层只保留 `Project Launcher Menu.exe` 和 `generate_bats.py` 两个常用文件。
@@ -103,6 +109,7 @@ BAT 文件在 Windows CMD 中容易受到编码影响。中文菜单虽然好看
 | `runtime/launcher_ps.py` 指向 `runtime/启动菜单.bat` | 已确认 |
 | `Project Launcher Menu.spec` 指向 `runtime/launcher_ps.py` 和 `runtime/app.ico` | 已确认 |
 | `bat/` 第一层只保留 `Project Launcher Menu.exe` 和 `generate_bats.py` 两个文件 | 已确认 |
+| 重新打包后的 `Project Launcher Menu.exe` 调用 `runtime/启动菜单.bat` | 已完成 |
 | 第 7 项 `sensevoice-ime` 路径存在 | 成功配置 |
 
 ## 6. 文件位置
@@ -130,3 +137,4 @@ project-launcher-menu/
     └── packaging/
         └── Project Launcher Menu.spec
 ```
+
