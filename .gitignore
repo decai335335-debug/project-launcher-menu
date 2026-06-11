@@ -12,7 +12,7 @@ bat/dist/
 *.pyz
 *.zip
 
-# Ignore only older experiment launchers/backups; keep current EXE/spec and archived files tracked.
+# Ignore only older experiment launchers/backups; keep current EXE/spec/icon tracked.
 bat/启动菜单ps.exe
 bat/启动菜单ps.spec
 bat/启动菜单ps2.exe
@@ -27,6 +27,3 @@ bat/启动菜单ps2.spec
 Thumbs.db
 .vscode/
 .idea/
-
-bat/废弃/*.bat
-

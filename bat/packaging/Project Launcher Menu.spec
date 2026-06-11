@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['launcher_ps.py'],
+    ['runtime/launcher_ps.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -35,6 +35,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['app.ico'],
+    icon=['runtime/app.ico'],
 )
+
 

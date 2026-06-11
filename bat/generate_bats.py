@@ -1,32 +1,34 @@
-# -*- coding: utf-8 -*-
-"""Regenerate the launcher menu from existing NN-name.bat files.
+﻿# -*- coding: utf-8 -*-
+"""Regenerate the launcher menu from existing launchers/NN-name.bat files.
 
 Usage:
-    1. Put a file like 08-my-tool.bat in this folder.
+    1. Put a file like launchers/08-my-tool.bat in this folder tree.
     2. Run: python generate_bats.py
-    3. The main 启动菜单.bat menu will include it automatically.
+    3. runtime/启动菜单.bat will include it automatically.
 
-Only files matching NN-name.bat are added to the menu. The main menu itself
-and any non-numbered helper bat files are ignored.
+The bat folder root intentionally stays small:
+    - Project Launcher Menu.exe
+    - generate_bats.py
 """
 from pathlib import Path
 import re
 
 BAT_DIR = Path(__file__).resolve().parent
+LAUNCHERS_DIR = BAT_DIR / "launchers"
+RUNTIME_DIR = BAT_DIR / "runtime"
 MENU_NAME = "启动菜单.bat"
 ENTRY_RE = re.compile(r"^(\d{2})-(.+)\.bat$", re.IGNORECASE)
 
 
 def write_ascii(path: Path, content: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="ascii")
     print(f"Generated: {path}")
 
 
 def discover_entries():
     entries = []
-    for path in BAT_DIR.glob("*.bat"):
-        if path.name == MENU_NAME:
-            continue
+    for path in LAUNCHERS_DIR.glob("*.bat"):
         match = ENTRY_RE.match(path.name)
         if not match:
             continue
@@ -68,7 +70,7 @@ def build_menu(entries):
     for idx, _, _, path in entries:
         menu_lines.extend([
             f":p{idx}",
-            f"call \"{path.as_posix()}\"",
+            f"call \"{path}\"",
             "goto menu",
             "",
         ])
@@ -85,11 +87,11 @@ def build_menu(entries):
 def main():
     entries = discover_entries()
     if not entries:
-        raise SystemExit("No launcher entries found. Expected files like 01-example.bat")
-    write_ascii(BAT_DIR / MENU_NAME, build_menu(entries))
+        raise SystemExit("No launcher entries found. Expected files like launchers/01-example.bat")
+    write_ascii(RUNTIME_DIR / MENU_NAME, build_menu(entries))
     print("Launcher entries:")
     for idx, _, name, path in entries:
-        print(f"  {idx}. {name} -> {path.name}")
+        print(f"  {idx}. {name} -> {path.relative_to(BAT_DIR)}")
 
 
 if __name__ == "__main__":

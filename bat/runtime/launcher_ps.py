@@ -1,4 +1,4 @@
-import tkinter as tk
+﻿import tkinter as tk
 from tkinter import ttk
 import subprocess
 import os
@@ -34,7 +34,7 @@ def launch_wt():
     """用 Windows Terminal 打开启动菜单"""
     global last_launcher
     kill_process('menu')
-    bat_path = os.path.join(os.path.dirname(sys.executable), "启动菜单.bat")
+    bat_path = os.path.join(os.path.dirname(sys.executable), "runtime", "启动菜单.bat")
     processes['menu'] = subprocess.Popen(
         ["wt.exe", "powershell.exe", "-NoExit", "-Command", f"cmd /k '{bat_path}'"],
         creationflags=subprocess.CREATE_NEW_CONSOLE
@@ -47,7 +47,7 @@ def launch_ps():
     """用 PowerShell 打开启动菜单"""
     global last_launcher
     kill_process('menu')
-    bat_path = os.path.join(os.path.dirname(sys.executable), "启动菜单.bat")
+    bat_path = os.path.join(os.path.dirname(sys.executable), "runtime", "启动菜单.bat")
     processes['menu'] = subprocess.Popen(
         ["powershell.exe", "-NoExit", "-Command", f"cmd /k '{bat_path}'"],
         creationflags=subprocess.CREATE_NEW_CONSOLE
@@ -117,3 +117,4 @@ ttk.Button(root, text="退出", command=root.destroy).pack(pady=5)
 threading.Timer(0.3, launch_ps).start()
 
 root.mainloop()
+
