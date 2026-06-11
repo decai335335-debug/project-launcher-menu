@@ -10,6 +10,12 @@
 
 ## 2. 迭代时间线
 
+### v0.2.6 - 本地目录重命名
+
+- 将本地项目目录从 `E:\Projects\launchers` 重命名为 `E:\Projects\project-launcher-menu`，与仓库名称保持一致。
+- 重新运行 `generate_bats.py`，让 `runtime/启动菜单.bat` 中的项目 BAT 调用路径指向新目录。
+- 更新 README 中所有旧路径，避免后续按文档操作时回到旧目录。
+- 经验记录：启动器自身目录改名后，需要重新生成菜单；但不需要重新编译 EXE，因为 EXE 查找 `runtime/启动菜单.bat` 使用的是相对自身路径。
 ### v0.2.5 - 修复 EXE 调用旧菜单路径
 
 - 发现重新整理目录后，旧版 `Project Launcher Menu.exe` 仍然调用 `bat/启动菜单.bat`，但菜单已经移动到 `bat/runtime/启动菜单.bat`。
@@ -137,4 +143,5 @@ project-launcher-menu/
     └── packaging/
         └── Project Launcher Menu.spec
 ```
+
 

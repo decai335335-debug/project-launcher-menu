@@ -26,31 +26,31 @@ if "%choice%"=="0" goto end
 goto menu
 
 :p1
-call "E:\Projects\launchers\bat\launchers\01-video-sub-md.bat"
+call "E:\Projects\project-launcher-menu\bat\launchers\01-video-sub-md.bat"
 goto menu
 
 :p2
-call "E:\Projects\launchers\bat\launchers\02-tabbit-ai-shortcut.bat"
+call "E:\Projects\project-launcher-menu\bat\launchers\02-tabbit-ai-shortcut.bat"
 goto menu
 
 :p3
-call "E:\Projects\launchers\bat\launchers\03-win-layout-manager.bat"
+call "E:\Projects\project-launcher-menu\bat\launchers\03-win-layout-manager.bat"
 goto menu
 
 :p4
-call "E:\Projects\launchers\bat\launchers\04-doubao-podcast.bat"
+call "E:\Projects\project-launcher-menu\bat\launchers\04-doubao-podcast.bat"
 goto menu
 
 :p5
-call "E:\Projects\launchers\bat\launchers\05-github-repo-downloader.bat"
+call "E:\Projects\project-launcher-menu\bat\launchers\05-github-repo-downloader.bat"
 goto menu
 
 :p6
-call "E:\Projects\launchers\bat\launchers\06-auto-unzip-interactive.bat"
+call "E:\Projects\project-launcher-menu\bat\launchers\06-auto-unzip-interactive.bat"
 goto menu
 
 :p7
-call "E:\Projects\launchers\bat\launchers\07-sensevoice-ime.bat"
+call "E:\Projects\project-launcher-menu\bat\launchers\07-sensevoice-ime.bat"
 goto menu
 
 :end
