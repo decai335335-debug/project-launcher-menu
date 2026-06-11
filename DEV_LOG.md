@@ -12,10 +12,10 @@
 
 ### v0.2.1 - 固定入口 EXE 与图标资源
 
-- 明确 `启动菜单ps3.exe` 是当前实际使用入口，可以固定到任务栏或开始菜单。
-- 保留 `启动菜单ps3.spec`，方便之后按同一配置重新打包。
+- 明确 `Project Launcher Menu.exe` 是当前实际使用入口，可以固定到任务栏或开始菜单。
+- 保留 `Project Launcher Menu.spec`，方便之后按同一配置重新打包。
 - 保留 `app.ico` 和 `project-launcher-icon.ico` 作为图标资源。
-- 调整 `.gitignore`：继续忽略 build/dist 和旧实验 EXE，但不忽略正式入口 `启动菜单ps3.exe`、`启动菜单ps3.spec`、图标文件。
+- 调整 `.gitignore`：继续忽略 build/dist 和旧实验 EXE，但不忽略正式入口 `启动菜单ps3.exe`、`Project Launcher Menu.spec`、图标文件。
 
 ### v0.2.0 - SenseVoice IME 接入与文档整理
 
@@ -71,7 +71,7 @@ BAT 文件在 Windows CMD 中容易受到编码影响。中文菜单虽然好看
 
 ### 为什么保留 `启动菜单ps3.exe`，但忽略其它打包产物?
 
-`启动菜单ps3.exe` 是实际使用入口，方便固定到任务栏；`build/`、`dist/`、旧的 `启动菜单ps*.exe` 和中间文件则是实验或可再生成产物，不应该让仓库膨胀。
+`Project Launcher Menu.exe` 是实际使用入口，方便固定到任务栏；`build/`、`dist/`、旧的 `启动菜单ps*.exe` 和中间文件则是实验或可再生成产物，不应该让仓库膨胀。
 
 ## 5. 实际测试数据
 
@@ -82,7 +82,7 @@ BAT 文件在 Windows CMD 中容易受到编码影响。中文菜单虽然好看
 | `07-sensevoice-ime.bat` 调用 `run.bat` | 成功配置 |
 | `generate_bats.py` 自动扫描 7 个 `NN-name.bat` 项目 | 成功 |
 | Git 忽略 build/dist 和旧实验 EXE，同时保留正式 `启动菜单ps3.exe` | 成功配置 |
-| `启动菜单ps3.spec` 使用 `launcher_ps.py` 和 `app.ico` | 已确认 |
+| `Project Launcher Menu.spec` 使用 `launcher_ps.py` 和 `app.ico` | 已确认 |
 
 ## 6. 文件位置
 
@@ -93,10 +93,12 @@ project-launcher-menu/
 ├── .gitignore
 ├── launcher_ps.py
 └── bat/
-    ├── 启动菜单ps3.exe
-    ├── 启动菜单ps3.spec
-    ├── 启动菜单.exe
-    ├── 启动菜单.spec
+    ├── Project Launcher Menu.exe
+    ├── Project Launcher Menu.spec
+    ├── 废弃/
+    │   ├── 启动菜单.exe
+    │   ├── 启动菜单.spec
+    │   └── project-launcher-icon.ico
     ├── 启动菜单.bat
     ├── 01-video-sub-md.bat
     ├── 02-tabbit-ai-shortcut.bat
@@ -109,4 +111,5 @@ project-launcher-menu/
     ├── app.ico
     └── project-launcher-icon.ico
 ```
+
 

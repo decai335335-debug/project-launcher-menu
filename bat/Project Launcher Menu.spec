@@ -1,4 +1,4 @@
-# -*- mode: python ; coding: utf-8 -*-
+﻿# -*- mode: python ; coding: utf-8 -*-
 
 
 a = Analysis(
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='启动菜单ps3',
+    name='Project Launcher Menu',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -37,3 +37,4 @@ exe = EXE(
     entitlements_file=None,
     icon=['app.ico'],
 )
+

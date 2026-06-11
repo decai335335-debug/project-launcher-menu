@@ -12,13 +12,15 @@ bat/dist/
 *.pyz
 *.zip
 
-# Keep the current published launchers and icons tracked.
-# Ignore only older experiment launchers/backups.
+# Ignore only older experiment launchers/backups; keep current EXE/spec and archived files tracked.
 bat/启动菜单ps.exe
 bat/启动菜单ps.spec
 bat/启动菜单ps2.exe
 bat/启动菜单ps2.exe.old
 bat/启动菜单ps2.spec
+
+# Local source image, not required for runtime
+*.png
 
 # OS/editor
 .DS_Store
@@ -26,6 +28,5 @@ Thumbs.db
 .vscode/
 .idea/
 
-bat/废弃/
-*.png
+bat/废弃/*.bat
 
