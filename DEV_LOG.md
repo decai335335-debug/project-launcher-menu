@@ -44,7 +44,7 @@
 | 问题 | 根因 | 解决方案 | 涉及版本 |
 | --- | --- | --- | --- |
 | CMD 把“项目启动菜单”等中文当成命令执行 | BAT 文件编码和 CMD 当前代码页不一致，中文行被错误解析 | 主菜单改为 ASCII 英文文本，避免编码依赖 | v0.2.0 |
-| 新增第 7 项后生成脚本可能覆盖手改内容 | `generate_bats.py` 只知道 6 个项目 | 将 `sensevoice-ime` 加入 `PROJECTS` 清单 | v0.2.0 |
+| 新增项目后还要修改生成脚本清单 | 固定 `PROJECTS` 列表需要手动维护 | 改为扫描 `NN-name.bat` 文件自动生成菜单 | v0.2.2 |
 | 仓库可能上传大量打包产物 | build/dist/spec 是本机生成文件，旧实验 EXE 也会造成混乱 | `.gitignore` 忽略中间产物和旧实验 EXE，但保留正式入口 `启动菜单ps3.exe` | v0.2.1 |
 | 主菜单里直接写复杂启动命令后维护困难 | 所有逻辑集中在一个 BAT 内会越来越乱 | 每个项目一个独立 BAT，主菜单只做跳转 | v0.1.0 |
 | GUI 打包版本容易和本机路径绑定 | PyInstaller 产物包含本机环境假设 | 保留当前实际使用的 ps3 入口和 spec，忽略旧实验入口 | v0.2.1 |
@@ -80,7 +80,7 @@ BAT 文件在 Windows CMD 中容易受到编码影响。中文菜单虽然好看
 | `启动菜单.bat` 使用 ASCII 后由 CMD 读取 | 成功 |
 | 第 7 项 `sensevoice-ime` 路径存在 | 成功 |
 | `07-sensevoice-ime.bat` 调用 `run.bat` | 成功配置 |
-| `generate_bats.py` 包含 7 个项目 | 成功 |
+| `generate_bats.py` 自动扫描 7 个 `NN-name.bat` 项目 | 成功 |
 | Git 忽略 build/dist 和旧实验 EXE，同时保留正式 `启动菜单ps3.exe` | 成功配置 |
 | `启动菜单ps3.spec` 使用 `launcher_ps.py` 和 `app.ico` | 已确认 |
 
@@ -109,3 +109,4 @@ project-launcher-menu/
     ├── app.ico
     └── project-launcher-icon.ico
 ```
+

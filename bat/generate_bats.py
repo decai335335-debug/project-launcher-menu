@@ -1,23 +1,20 @@
-﻿# -*- coding: utf-8 -*-
-"""Regenerate project launcher .bat files.
+# -*- coding: utf-8 -*-
+"""Regenerate the launcher menu from existing NN-name.bat files.
 
-The generated batch files intentionally use ASCII menu text. This avoids
-Chinese encoding issues in cmd.exe while still keeping project names readable.
+Usage:
+    1. Put a file like 08-my-tool.bat in this folder.
+    2. Run: python generate_bats.py
+    3. The main 启动菜单.bat menu will include it automatically.
+
+Only files matching NN-name.bat are added to the menu. The main menu itself
+and any non-numbered helper bat files are ignored.
 """
 from pathlib import Path
+import re
 
 BAT_DIR = Path(__file__).resolve().parent
-
-# number, name, project_dir, command
-PROJECTS = [
-    ("01", "video-sub-md", "E:/Projects/Codex/video-sub-md", "python main.py"),
-    ("02", "tabbit-ai-shortcut", "E:/Projects/ai/tabbit-ai-shortcut", "python ai_button_hotkey_v4.py"),
-    ("03", "win-layout-manager", "E:/Projects/tools/win-layout-manager", "python snap_all.py"),
-    ("04", "doubao-podcast", "E:/Projects/ai/doubao-podcast-obsidian-bridge", "python doubao_pipeline.py"),
-    ("05", "github-repo-downloader", "E:/Projects/tools/github-repo-downloader", "python github_batch_downloader.py"),
-    ("06", "auto-unzip-interactive", "E:/Projects/tools/auto-unzip", "python scripts/extract_interactive.py"),
-    ("07", "sensevoice-ime", "E:/Projects/ai/sensevoice_ime", "call run.bat"),
-]
+MENU_NAME = "启动菜单.bat"
+ENTRY_RE = re.compile(r"^(\d{2})-(.+)\.bat$", re.IGNORECASE)
 
 
 def write_ascii(path: Path, content: str) -> None:
@@ -25,62 +22,75 @@ def write_ascii(path: Path, content: str) -> None:
     print(f"Generated: {path}")
 
 
-for num, name, project_dir, command in PROJECTS:
-    bat_path = BAT_DIR / f"{num}-{name}.bat"
-    content = "\n".join([
+def discover_entries():
+    entries = []
+    for path in BAT_DIR.glob("*.bat"):
+        if path.name == MENU_NAME:
+            continue
+        match = ENTRY_RE.match(path.name)
+        if not match:
+            continue
+        num, name = match.groups()
+        entries.append((int(num), num, name, path))
+    entries.sort(key=lambda item: item[0])
+    return entries
+
+
+def build_menu(entries):
+    menu_lines = [
         "@echo off",
         "chcp 65001 > nul",
-        f"cd /d \"{project_dir}\"",
-        command,
-        "pause" if not command.lower().startswith("call ") else "",
-        "",
-    ])
-    write_ascii(bat_path, content)
+        ":menu",
+        "cls",
+        "echo ================================",
+        "echo        Project Launcher Menu",
+        "echo ================================",
+    ]
 
-menu_lines = [
-    "@echo off",
-    "chcp 65001 > nul",
-    ":menu",
-    "cls",
-    "echo ================================",
-    "echo        Project Launcher Menu",
-    "echo ================================",
-]
+    for idx, _, name, _ in entries:
+        menu_lines.append(f"echo {idx}. {name}")
 
-for num, name, _, _ in PROJECTS:
-    menu_lines.append(f"echo {int(num)}. {name}")
-
-menu_lines.extend([
-    "echo 0. Exit",
-    "echo ================================",
-    "set /p choice=Input number: ",
-])
-
-for num, _, _, _ in PROJECTS:
-    idx = str(int(num))
-    menu_lines.append(f'if "%choice%"=="{idx}" goto p{idx}')
-
-menu_lines.extend([
-    'if "%choice%"=="0" goto end',
-    "goto menu",
-    "",
-])
-
-for num, name, _, _ in PROJECTS:
-    idx = str(int(num))
     menu_lines.extend([
-        f":p{idx}",
-        f"call \"{(BAT_DIR / f'{num}-{name}.bat').as_posix()}\"",
+        "echo 0. Exit",
+        "echo ================================",
+        "set /p choice=Input number: ",
+    ])
+
+    for idx, _, _, _ in entries:
+        menu_lines.append(f'if "%choice%"=="{idx}" goto p{idx}')
+
+    menu_lines.extend([
+        'if "%choice%"=="0" goto end',
         "goto menu",
         "",
     ])
 
-menu_lines.extend([
-    ":end",
-    "echo Exit.",
-    "pause",
-    "",
-])
+    for idx, _, _, path in entries:
+        menu_lines.extend([
+            f":p{idx}",
+            f"call \"{path.as_posix()}\"",
+            "goto menu",
+            "",
+        ])
 
-write_ascii(BAT_DIR / "启动菜单.bat", "\n".join(menu_lines))
-print("All launcher bat files regenerated.")
+    menu_lines.extend([
+        ":end",
+        "echo Exit.",
+        "pause",
+        "",
+    ])
+    return "\n".join(menu_lines)
+
+
+def main():
+    entries = discover_entries()
+    if not entries:
+        raise SystemExit("No launcher entries found. Expected files like 01-example.bat")
+    write_ascii(BAT_DIR / MENU_NAME, build_menu(entries))
+    print("Launcher entries:")
+    for idx, _, name, path in entries:
+        print(f"  {idx}. {name} -> {path.name}")
+
+
+if __name__ == "__main__":
+    main()
